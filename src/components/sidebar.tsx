@@ -1,6 +1,6 @@
 export const SideBar = () => {
     return (
-        <div className="p-6 w-[256px] border-r border-[#E2E8F0] h-full">
+        <div className="p-6 w-[256px] border-r border-[#E2E8F0] h-full hidden md:block">
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4">
 

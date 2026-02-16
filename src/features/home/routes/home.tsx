@@ -21,7 +21,7 @@ yarn add @lumina-ui/core `;
                         <CodeBlock code={code} title="Quick Start" />
                     </div>
                 </div>
-                <div className="w-[256px]">
+                <div className="w-[256px] hidden md:block">
                     <LeftAside />
                 </div>
             </div>

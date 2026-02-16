@@ -8,7 +8,7 @@ export const LeftAside = () => {
   ];
 
   return (
-    <aside className="p-5 font-sans">
+    <aside className="p-5 font-sans hidden md:block">
 
       {/* Title */}
       <p className="mb-3 text-xs font-semibold tracking-wide text-gray-500">

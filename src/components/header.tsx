@@ -10,7 +10,7 @@ export const Header = () => {
                     <p className="text-xl font-bold">LuminaUI</p>
                 </div>
 
-                <div className="px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] w-[256px] flex items-center gap-2 h-[40px]">
+                <div className="px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] w-[256px] items-center gap-2 h-[40px] hidden md:flex">
                     <div>
                         <img src={serachIcon} alt="search-icon" />
                     </div>
@@ -19,13 +19,13 @@ export const Header = () => {
             </div>
             <div className="flex gap-1">
                 <div className="flex gap-1 items-center text-[#64748B] text-sm">
-                    <div className="flex justify-center items-center">
+                    <div className="md:flex justify-center items-center hidden">
                         <p className="px-3 py-2">v1.0.0</p>
                         <div className="border border-[#E2E8F0] h-4 w-px">
                         </div>
 
                     </div>
-                    <div className="flex gap-1 items-center">
+                    <div className="gap-1 items-center hidden md:flex">
                         <p className="px-3 py-2">Componets</p>
                         <p className="px-3 py-2">Resources</p>
                     </div>
