@@ -1,6 +1,6 @@
 import { Header } from "../../../components/header"
 import { SideBar } from "../../../components/sidebar"
-import { CodeBlock } from "../../../components/code-block"
+import { CodeBlock } from "../../../components/bash-block"
 import { Hero } from "../../../components/hero"
 import { LeftAside } from "../../../components/left-aside"
 
@@ -9,6 +9,15 @@ const HomePage = () => {
 
 # or using yarn
 yarn add @lumina-ui/core `;
+
+const menu = [
+    "Introduction",
+    "Quick Start",
+    "Key Features",
+    "Live Preview",
+    "Next Steps",
+  ];
+
     return (
         <div className="h-screen flex flex-col">
             <Header />
@@ -22,7 +31,7 @@ yarn add @lumina-ui/core `;
                     </div>
                 </div>
                 <div className="w-[256px] hidden md:block">
-                    <LeftAside />
+                    <LeftAside menu={menu} />
                 </div>
             </div>
         </div>

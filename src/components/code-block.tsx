@@ -1,58 +1,108 @@
 import { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export const CodeBlock = ({ code, title }: { code: string, title: string }) => {
-    const [copied, setCopied] = useState(false);
+type PackageManager = "npm" | "yarn" | "pnpm";
 
+type CodeMap = {
+  npm: string;
+  yarn: string;
+  pnpm: string;
+};
 
+type CodeBlockProps = {
+  /** For normal code block */
+  code?: string;
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
+  /** For npm/yarn/pnpm tabs */
+  commands?: CodeMap;
 
-        setTimeout(() => {
-            setCopied(false);
-        }, 2000);
-    };
+  /** UI Variant */
+  variant?: "tabs" | "plain";
 
-    return (
-        <div className="max-w-4xl font-mono">
+  /** Language for highlighting */
+  language?: string;
+};
 
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-semibold text-[#0F172A]">
-                    {title}
-                </h3>
+export default function CodeBlock({
+  code,
+  commands,
+  variant = "plain",
+  language = "tsx",
+}: CodeBlockProps) {
+  const [active, setActive] = useState<PackageManager>("npm");
+  const [copied, setCopied] = useState(false);
 
-            </div>
+  const content =
+    variant === "tabs" && commands
+      ? commands[active]
+      : code || "";
 
-            {/* Terminal Box */}
-            <div className="rounded-xl overflow-hidden shadow-2xl bg-slate-900">
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
-                {/* Top Bar */}
-                <div className="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800">
+  return (
+    <div className="rounded-xl border border-white/10 overflow-hidden bg-bg-code shadow-xl">
 
-                    {/* Mac Dots */}
-                    <div className="flex gap-2">
-                        <span className="w-3 h-3 bg-red-500 rounded-full" />
-                        <span className="w-3 h-3 bg-yellow-400 rounded-full" />
-                        <span className="w-3 h-3 bg-green-500 rounded-full" />
-                    </div>
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/10">
 
-                    {/* Copy Button */}
-                    <button
-                        onClick={copyToClipboard}
-                        className="text-xs px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-slate-800 transition"
-                    >
-                        {copied ? "Copied ✓" : "Copy"}
-                    </button>
-                </div>
+        {/* Tabs (Only if variant = tabs) */}
+        {variant === "tabs" && commands ? (
+          <div className="flex gap-2">
+            {(["npm", "yarn", "pnpm"] as PackageManager[]).map((pm) => (
+              <button
+                key={pm}
+                onClick={() => setActive(pm)}
+                className={`
+                  px-3 py-1 text-sm rounded-md transition font-semibold
+                  ${active === pm
+                    ? "bg-indigo-500/20 text-indigo-300"
+                    : "text-gray-400 hover:text-white"
+                  }
+                `}
+              >
+                {pm}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="text-xs text-gray-400 font-mono">
+            {language.toUpperCase()}
+          </div>
+        )}
 
-                {/* Code Area */}
-                <pre className="p-5 text-sm text-slate-200 overflow-x-auto leading-relaxed">
-                    <code>{code}</code>
-                </pre>
+        {/* Copy */}
+        <button
+          onClick={handleCopy}
+          className="text-xs text-gray-300 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-md transition"
+        >
+          {copied ? "Copied ✅" : "Copy 📋"}
+        </button>
+      </div>
 
-            </div>
-        </div>
-    );
+          <div className="overflow-x-auto overscroll-x-contain">
+        <SyntaxHighlighter
+          language={language}
+          style={oneDark}
+          wrapLongLines={false}
+          customStyle={{
+            margin: 0,
+            padding: "16px",
+            fontSize: "13px",
+            lineHeight: "1.6",
+            whiteSpace: "pre",
+            minWidth: "max-content",
+          }}
+        >
+          {content}
+        </SyntaxHighlighter>
+      </div>
+
+    </div>
+  );
 }
+
