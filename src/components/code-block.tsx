@@ -22,6 +22,8 @@ type CodeBlockProps = {
 
   /** Language for highlighting */
   language?: string;
+
+  title?: string;
 };
 
 export default function CodeBlock({
@@ -29,6 +31,7 @@ export default function CodeBlock({
   commands,
   variant = "plain",
   language = "tsx",
+  title,
 }: CodeBlockProps) {
   const [active, setActive] = useState<PackageManager>("npm");
   const [copied, setCopied] = useState(false);
@@ -71,7 +74,7 @@ export default function CodeBlock({
           </div>
         ) : (
           <div className="text-xs text-gray-400 font-mono">
-            {language.toUpperCase()}
+            {title}
           </div>
         )}
 
